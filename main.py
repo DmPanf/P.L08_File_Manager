@@ -1,6 +1,7 @@
 # Main Menu
 from file_tools import *
 import time
+from decorators import *
 
 
 menu = {'21': 'создать папку',
@@ -15,33 +16,26 @@ menu = {'21': 'создать папку',
         }
 
 
-def check_time(func):
-    def wrapper():
-        start = time.time()
-        func()
-        end = time.time()
-        print('[*] Время выполнения: {:.4f} секунд.'.format(end - start))
 
-    return wrapper
-
-
-@check_time
+@check_time # 🟡
 def stop_menu():
     print('\n😎 До скорой встречи!')
     return False
 
 
-@check_time
+
+@check_time # 🟡
+@add_separators # 🟡
 def print_menu():
     title = ' МЕНЮ '
-    max_str = int((max((len(v)) for v in menu.values()) + 4 - len(title)) / 2)
+    max_str = int((max((len(v)) for v in menu.values()) + 4 - len(title)) / 2) # 🟡
     print('\n', '=' * max_str, title, '=' * max_str)
     # for key, val in menu.items():
     #    print(f'{key}. {val}')
     time.sleep(0.5)
-    result = [f'{key}. {val}' for key, val in menu.items()]
+    result = [f'{key}. {val}' for key, val in menu.items()] # 🟡
     print(*result, sep='\n')
-    print('-' * (max_str * 2 + len(title) + 2))
+    #print('-' * (max_str * 2 + len(title) + 2)) # 🟡
     return
 
 

@@ -2,27 +2,35 @@
 import os
 import shutil
 
+from decorators import *
 
+
+@save_call_to_file  # 🟡
 def change_dir(path):  # смена рабочего каталога на любой другой (относительный путь применим)
     if path[0] != '/':
         path = os.getcwd() + '/' + path
     try:
         os.chdir(path)
-        print("Текущий рабочий каталог: {0}".format(os.getcwd()))
+        # print("Текущий рабочий каталог: {0}".format(os.getcwd()))
     except FileNotFoundError:
         print("Каталог [{0}] не существует".format(path))
     except NotADirectoryError:
         print("{0} - не является каталогом".format(path))
     except PermissionError:
         print("Не хватает прав!")
+    finally:  # 🟡
+        print("Текущий рабочий каталог: {0}".format(os.getcwd()))
     return
 
 
-def mk_dir(path):  # создание папки в теущем каталоге
-    if path[0] == '/':
-        path = os.getcwd() + path
-    else:
-        path = os.getcwd() + '/' + path
+@save_call_to_file  # 🟡
+def mk_dir(path):  # создание папки в теущем каталоге # 🟡
+    # if path[0] == '/':
+    #    path = os.getcwd() + path
+    # else:
+    #    path = os.getcwd() + '/' + path
+    path = (os.getcwd() + path) if path[0] == '/' else (os.getcwd() + '/' + path)  # 🟡
+
     if not os.path.exists(path):
         os.mkdir(path)
         print("Папка создана:", path)
@@ -31,6 +39,7 @@ def mk_dir(path):  # создание папки в теущем каталог�
     return
 
 
+@save_call_to_file  # 🟡
 def rm_dir(path):  # удаление файла или папки в текущем каталоге
     if path[0] == '/':
         path = path[1:]
@@ -73,6 +82,8 @@ def file_copy(path1, path2):  # копировать файл или папку 
 """
 
 
+@save_call_to_file  # 🟡
+@check_time  # 🟡
 def file_copy(source, destination):
     if os.path.exists(source):
         try:
@@ -89,12 +100,15 @@ def file_copy(source, destination):
     return
 
 
+@save_call_to_file  # 🟡
+@check_time  # 🟡
 def list_all():  # вывод всех объектов в рабочей папке
     path = os.getcwd()
     print(path, ' ==>', *os.listdir(path), sep='\n')
     return
 
 
+@save_call_to_file  # 🟡
 def list_dir():  # вывод только папок, которые находятся в рабочей папке
     path = os.getcwd()
     folders = sorted([dirs for dirs in os.listdir(path) if os.path.isdir(dirs)])
@@ -102,6 +116,7 @@ def list_dir():  # вывод только папок, которые наход
     return folders
 
 
+@save_call_to_file  # 🟡
 def list_to_sep_str(my_list):
     delim = ", "
     temp = list(map(str, my_list))
@@ -109,6 +124,8 @@ def list_to_sep_str(my_list):
     return my_txt
 
 
+@save_call_to_file  # 🟡
+@check_time  # 🟡
 def save_dir():
     all_files = list_to_sep_str(list_files())
     all_dirs = list_to_sep_str(list_dir())
@@ -119,6 +136,7 @@ def save_dir():
     return files_dirs
 
 
+@save_call_to_file  # 🟡
 def list_files():  # вывод только файлов, которые находятся в рабочей папке
     path = os.getcwd()
     only_files = sorted([files for files in os.listdir(path) if os.path.isfile(files)])

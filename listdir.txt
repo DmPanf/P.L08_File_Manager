@@ -1,0 +1,2 @@
+files: .gitignore, LICENSE, README.md, decorators.py, file_tools.py, listdir.txt, log.txt, main.py
+dirs: .git, .idea, .test1, .test2, .test3, __pycache__
