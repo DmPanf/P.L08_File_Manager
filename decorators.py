@@ -2,9 +2,10 @@ def check_time(func):  # 🟡
     import time
     def wrapper():
         start = time.time()
-        func()
+        result = func()
         end = time.time()
         print('[*] Время выполнения: {:.4f} секунд.'.format(end - start))
+        return result
 
     return wrapper
 
