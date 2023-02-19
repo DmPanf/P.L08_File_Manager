@@ -1,6 +1,6 @@
 # Main Menu
-from bank_account import my_bank
 from file_tools import *
+import time
 
 
 menu = {'21': 'создать папку',
@@ -11,22 +11,36 @@ menu = {'21': 'создать папку',
         '26': 'посмотреть только файлы',
         '27': 'смена рабочей директории',
         '28': 'сохранить содержимое директории в файл',
-        '32': 'мой банковский счет',
         '00': 'выход.'
         }
 
 
+def check_time(func):
+    def wrapper():
+        start = time.time()
+        func()
+        end = time.time()
+        print('[*] Время выполнения: {:.4f} секунд.'.format(end - start))
+
+    return wrapper
+
+
+@check_time
 def stop_menu():
-    print('😎 До скорой встречи!')
+    print('\n😎 До скорой встречи!')
     return False
 
 
+@check_time
 def print_menu():
     title = ' МЕНЮ '
     max_str = int((max((len(v)) for v in menu.values()) + 4 - len(title)) / 2)
     print('\n', '=' * max_str, title, '=' * max_str)
-    for key, val in menu.items():
-        print(f'{key}. {val}')
+    # for key, val in menu.items():
+    #    print(f'{key}. {val}')
+    time.sleep(0.5)
+    result = [f'{key}. {val}' for key, val in menu.items()]
+    print(*result, sep='\n')
     print('-' * (max_str * 2 + len(title) + 2))
     return
 
@@ -34,7 +48,7 @@ def print_menu():
 def start_menu(ask=True):
     while ask:
         print_menu()
-        item = input('... Ваш выбор: ')
+        item = input('... Введите номер из меню: ')
         if item in menu.keys():
             if item == "00":
                 ask = stop_menu()
@@ -58,8 +72,6 @@ def start_menu(ask=True):
                 files_dirs = save_dir()
                 print('\n\n')
                 print(files_dirs)
-            elif item == "32":
-                my_bank()
             else:
                 print('Ok')
         else:
